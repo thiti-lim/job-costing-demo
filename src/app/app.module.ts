@@ -10,6 +10,7 @@ import { JobHistoryComponent } from './job-costing/job-history/job-history.compo
 
 const routes: Routes = [
   { path: 'job-costing', component: JobHistoryComponent },
+  { path: 'add-job-costing', component: AddJobComponent },
   // Add more routes as needed
 ];
 

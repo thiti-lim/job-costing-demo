@@ -10,7 +10,10 @@ export class AppComponent {
   constructor(private router: Router) {}
 
   headerTitle = 'Home';
-  routeTitles = new Map<string, string>([['/job-costing', 'Job Costing']]);
+  routeTitles = new Map<string, string>([
+    ['/job-costing', 'Job Costing'],
+    ['/add-job-costing', 'Add Job Costing'],
+  ]);
 
   onRouteChange() {
     let currentRouteUrl: string = this.router.url;
