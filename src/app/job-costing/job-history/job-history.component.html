@@ -1,1 +1,27 @@
-<button><a routerLink="/add-job-costing">add job</a></button>
+<div class="flex justify-center">
+  <div class="w-full">
+    <table
+      mat-table
+      [dataSource]="jobHistoryList"
+      class="mat-elevation-z4 overflow-hidden rounded-md"
+    >
+      <mat-text-column
+        name="jobNumber"
+        headerText="Job Number"
+        justify="end"
+      ></mat-text-column>
+      <mat-text-column
+        name="customerName"
+        headerText="Customer"
+        justify="end"
+      ></mat-text-column>
+      <mat-text-column
+        name="amount"
+        headerText="Amount"
+        justify="end"
+      ></mat-text-column>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

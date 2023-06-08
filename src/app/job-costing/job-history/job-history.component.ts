@@ -9,6 +9,7 @@ import { JobCosting } from '../job-costing.model';
 })
 export class JobHistoryComponent {
   jobHistoryList: JobCosting[] = [];
+  displayedColumns: string[] = ['jobNumber', 'customerName', 'amount'];
 
   constructor(private jobCostingService: JobCostingService) {}
 
