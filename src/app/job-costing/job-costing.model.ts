@@ -8,7 +8,6 @@ export class JobCosting {
     directMaterials?: DirectMaterial[],
     directLabors?: DirectLabor[]
   ) {
-    this.id = crypto.randomUUID();
     this.jobNumber = jobNumber;
     this.customerName = customerName;
     this.startDate = startDate;
@@ -17,7 +16,6 @@ export class JobCosting {
     this.directMaterials = directMaterials;
     this.directLabors = directLabors;
   }
-  id: string;
   jobNumber: string;
   customerName: string;
   startDate: Date;
@@ -34,13 +32,11 @@ export class DirectMaterial {
     units?: number,
     costPerUnit?: number
   ) {
-    this.id = crypto.randomUUID();
     this.reqNum = reqNum ?? '';
     this.name = name ?? '';
     this.units = units ?? 0;
     this.costPerUnit = costPerUnit ?? 0;
   }
-  id: string;
   reqNum: string;
   name: string;
   units: number = 0;
@@ -58,14 +54,12 @@ export class DirectLabor {
     costPerHour?: number,
     overheadRate?: number
   ) {
-    this.id = crypto.randomUUID();
     this.reqNum = reqNum ?? '';
     this.name = name ?? '';
     this.hours = hours ?? 0;
     this.costPerHour = costPerHour ?? 0;
     this.overheadRate = overheadRate ?? 0;
   }
-  id: string;
   reqNum: string;
   name: string;
   hours: number = 0;

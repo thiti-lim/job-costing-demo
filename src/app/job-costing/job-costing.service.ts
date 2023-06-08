@@ -19,4 +19,12 @@ export class JobCostingService {
       ),
     ];
   }
+
+  public getJobCosting(jobNumber: string): JobCosting | undefined {
+    let job: JobCosting[] = this.getJobHistory().filter(
+      (job) => job.jobNumber === jobNumber
+    );
+    if (job.length != 0) return job[0];
+    return;
+  }
 }

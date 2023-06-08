@@ -11,13 +11,24 @@ import { JobDetailComponent } from './job-costing/job-detail/job-detail.componen
 
 const routes: Routes = [
   { path: 'job-costing', component: JobHistoryComponent },
-  { path: 'add-job-costing', component: AddJobComponent },
+  { path: 'job-costing/add', component: AddJobComponent },
+  { path: 'job-costing/:job-number', component: JobDetailComponent },
   // Add more routes as needed
 ];
 
 @NgModule({
-  declarations: [AppComponent, AddJobComponent, JobHistoryComponent, JobDetailComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, MaterialModule, RouterModule.forRoot(routes)],
+  declarations: [
+    AppComponent,
+    AddJobComponent,
+    JobHistoryComponent,
+    JobDetailComponent,
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    RouterModule.forRoot(routes),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
