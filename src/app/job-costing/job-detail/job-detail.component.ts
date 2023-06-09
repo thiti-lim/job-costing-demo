@@ -20,7 +20,6 @@ export class JobDetailComponent {
   ngOnInit(): void {
     const jobNumber = this.route.snapshot.paramMap.get('job-number');
     this.job = this.jobCostingService.getJobCosting(jobNumber ?? '');
-    this.headerTitle += ' : ' + this.job?.jobNumber;
     console.log(this.job);
   }
 }
