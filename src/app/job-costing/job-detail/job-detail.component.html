@@ -3,7 +3,7 @@
 </div>
 <div class="flex m-8 justify-center flex-wrap">
   <div class="fixed flex flex-col bottom-0 right-0 m-10">
-    <button mat-fab class="bg-teal-400 mb-5">
+    <button mat-fab class="bg-teal-400 mb-5" (click)="toggleEdit()">
       <mat-icon class="text-teal-800">edit</mat-icon>
     </button>
     <button mat-fab class="bg-teal-400">
@@ -11,11 +11,21 @@
     </button>
   </div>
   <div
-    class="flex w-full flex-wrap bg-white rounded-md border-teal-200 border-2 shadow-md p-3 mb-8"
+    class="flex-col w-5/6 bg-emerald-500 rounded-md border-0 shadow-md px-8 py-5 mb-5"
   >
-    Job description
+    <div class="flex items-baseline mb-3">
+      <div class="text-green-100 text-3xl mr-2">{{ job?.jobNumber }}</div>
+      <div class="text-green-900 text-3xl">
+        {{ job?.customerName }}
+      </div>
+    </div>
+    <div class="text-emerald-200 text-lg">
+      {{ job?.startDate | date : 'dd/MM/yy' }} -
+      {{ job?.finishDate | date : 'dd/MM/yy' }}
+    </div>
+    <div class="text-emerald-900 text-lg">{{ job?.amount }} units</div>
   </div>
-  <div class="flex justify-evenly w-full">
+  <div class="flex justify-evenly w-5/6">
     <div
       class="flex-col items-center w-1/3 bg-white rounded-md border-teal-200 border-2 shadow-md px-3 py-5 text-lg text-black font-thin"
     >
@@ -32,13 +42,14 @@
         <div class="text-sm">{{ dm.totalCost }} BAHT</div>
       </div>
       <div
-        class="flex justify-center items-center px-3 py-3 rounded-md p-1 bg-teal-500"
+        *ngIf="editMode"
+        class="flex justify-center items-center px-3 py-3 mt-5 rounded-md p-1 bg-cyan-600"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          stroke-width="2"
           stroke="currentColor"
           class="w-6 h-6 text-white"
         >
@@ -66,13 +77,14 @@
         <div class="text-sm">{{ dl.totalCost }} BAHT</div>
       </div>
       <div
-        class="flex justify-center items-center px-3 py-3 rounded-md p-1 bg-teal-500"
+        *ngIf="editMode"
+        class="flex justify-center items-center px-3 py-3 mt-5 rounded-md p-1 bg-cyan-600"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          stroke-width="2"
           stroke="currentColor"
           class="w-6 h-6 text-white"
         >

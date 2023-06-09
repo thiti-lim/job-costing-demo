@@ -10,7 +10,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 })
 export class JobDetailComponent {
   headerTitle: string = 'Job Detail';
-  isDisabled: boolean = true;
+  editMode: boolean = false;
   job?: JobCosting;
   constructor(
     private jobCostingService: JobCostingService,
@@ -21,5 +21,9 @@ export class JobDetailComponent {
     const jobNumber = this.route.snapshot.paramMap.get('job-number');
     this.job = this.jobCostingService.getJobCosting(jobNumber ?? '');
     console.log(this.job);
+  }
+
+  toggleEdit(): void {
+    this.editMode = !this.editMode;
   }
 }

@@ -30,7 +30,7 @@ const routes: Routes = [
     MaterialModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'th' }],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
