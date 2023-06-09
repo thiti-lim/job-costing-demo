@@ -10,17 +10,17 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 })
 export class JobDetailComponent {
   headerTitle: string = 'Job Detail';
+  isDisabled: boolean = true;
   job?: JobCosting;
   constructor(
     private jobCostingService: JobCostingService,
-    private route: ActivatedRoute,
-    private router: RouterModule
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     const jobNumber = this.route.snapshot.paramMap.get('job-number');
     this.job = this.jobCostingService.getJobCosting(jobNumber ?? '');
-    this.headerTitle += ' | ' + this.job?.jobNumber;
+    this.headerTitle += ' : ' + this.job?.jobNumber;
     console.log(this.job);
   }
 }
