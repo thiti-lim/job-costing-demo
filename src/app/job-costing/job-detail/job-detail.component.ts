@@ -12,6 +12,10 @@ export class JobDetailComponent {
   headerTitle: string = 'Job Detail';
   editMode: boolean = false;
   job?: JobCosting;
+  totalMaterial = 0;
+  totalLabor = 0;
+  totalOverhead = 0;
+
   constructor(
     private jobCostingService: JobCostingService,
     private route: ActivatedRoute
@@ -25,5 +29,8 @@ export class JobDetailComponent {
 
   toggleEdit(): void {
     this.editMode = !this.editMode;
+  }
+  addMaterialInput(): void {
+    console.log('add material');
   }
 }

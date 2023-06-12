@@ -31,6 +31,33 @@ export class JobCosting {
   directMaterials?: DirectMaterial[];
   directLabors?: DirectLabor[];
   overheadRate: number;
+
+  get totalMaterial(): number {
+    return this.directMaterials!.reduce(
+      (acc, current) => acc + current.totalCost,
+      0
+    );
+  }
+  get totalLabor(): number {
+    return this.directLabors!.reduce(
+      (acc, current) => acc + current.totalCost,
+      0
+    );
+  }
+  get totalOverhead(): number {
+    return this.directLabors!.reduce(
+      (acc, current) => acc + current.totalCost * this.overheadRate,
+      0
+    );
+  }
+
+  get totalCost(): number {
+    return this.totalMaterial + this.totalLabor + this.totalOverhead;
+  }
+
+  get costPerUnit(): number {
+    return this.totalCost / this.amount;
+  }
 }
 
 export class DirectMaterial {
