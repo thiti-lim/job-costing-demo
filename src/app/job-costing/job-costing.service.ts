@@ -79,12 +79,27 @@ export class JobCostingService {
     let job: JobCosting | undefined = this.getJobCosting(jobId);
     job?.directMaterials?.push(
       new DirectMaterial(
-        job!.directMaterials![job!.directMaterials!.length - 1].id + 1,
+        this.getNewJobId(jobId),
         newMaterial.reqNum,
         newMaterial.name,
         Number(newMaterial.units),
         Number(newMaterial.costPerUnit)
       )
     );
+  }
+
+  public removeMaterial(jobId: number, matId: number) {
+    let job: JobCosting | undefined = this.getJobCosting(jobId);
+    job!.directMaterials = job?.directMaterials?.filter(
+      (mat) => mat.id != matId
+    );
+  }
+
+  getNewJobId(jobId: number): number {
+    let job: JobCosting | undefined = this.getJobCosting(jobId);
+    if (job == null) return 0;
+    if (job.directMaterials == null) return 0;
+    if (job.directMaterials.length == 0) return 0;
+    return job!.directMaterials![job!.directMaterials!.length - 1].id + 1;
   }
 }

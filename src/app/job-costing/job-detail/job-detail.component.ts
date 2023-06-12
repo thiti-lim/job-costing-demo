@@ -44,8 +44,13 @@ export class JobDetailComponent {
     this.editMode = !this.editMode;
     if (!this.editMode) this.addingMaterial = false;
   }
-  toggleMaterialInput(): void {
+
+  materialInputOn(): void {
     this.addingMaterial = true;
+  }
+
+  materialInputOff(): void {
+    this.addingMaterial = false;
   }
 
   addMaterial() {
@@ -56,4 +61,7 @@ export class JobDetailComponent {
     this.materialForm.reset();
   }
 
+  removeMaterial(matId: number) {
+    this.jobCostingService.removeMaterial(this.job!.id, matId);
+  }
 }
