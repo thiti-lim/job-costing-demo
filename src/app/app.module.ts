@@ -9,12 +9,13 @@ import { AddJobComponent } from './job-costing/add-job/add-job.component';
 import { JobHistoryComponent } from './job-costing/job-history/job-history.component';
 import { JobDetailComponent } from './job-costing/job-detail/job-detail.component';
 import localeTh from '@angular/common/locales/th';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 registerLocaleData(localeTh);
 const routes: Routes = [
   { path: 'job-costing', component: JobHistoryComponent },
   { path: 'job-costing/add', component: AddJobComponent },
-  { path: 'job-costing/job/:job-number', component: JobDetailComponent },
+  { path: 'job-costing/job/:id', component: JobDetailComponent },
 ];
 
 @NgModule({
@@ -29,6 +30,8 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MaterialModule,
     RouterModule.forRoot(routes),
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -6,7 +6,9 @@
   <!-- fab buttons -->
   <div class="fixed flex flex-col bottom-0 right-0 m-10">
     <button mat-fab class="bg-lime-400 mb-3" (click)="toggleEdit()">
-      <mat-icon class="text-black">{{ editMode ? 'save' : 'edit' }}</mat-icon>
+      <mat-icon class="text-black">{{
+        editMode ? 'visibility' : 'edit'
+      }}</mat-icon>
     </button>
     <button mat-fab class="bg-rose-500">
       <mat-icon class="text-black">delete</mat-icon>
@@ -18,7 +20,7 @@
       class="flex justify-between bg-emerald-500 rounded-t-2xl border-0 shadow-md px-8 py-6"
     >
       <div class="flex-col">
-        <div class="flex items-center mb-3">
+        <div class="flex items-center mb-2">
           <div class="text-green-100 text-3xl mr-2">{{ job?.jobNumber }}</div>
           <div class="text-green-900 text-3xl">
             {{ job?.customerName }}
@@ -74,10 +76,59 @@
               </div>
             </div>
           </div>
+          <div *ngIf="addingMaterial">
+            <form
+              [formGroup]="materialForm"
+              (ngSubmit)="addMaterial()"
+              class="flex-col"
+            >
+              <div class="flex flex-wrap items-center">
+                <input
+                  class="form-input w-1/2 border-2 outline-none border-teal-500 mb-2 border-r rounded-l-md focus:border-teal-800 p-1.5"
+                  type="text"
+                  id="reqNum"
+                  formControlName="reqNum"
+                  placeholder="Req No."
+                />
+                <input
+                  class="form-input w-1/2 border-2 outline-none border-teal-500 mb-2 border-l rounded-r-md focus:border-teal-800 p-1.5"
+                  type="text"
+                  id="name"
+                  formControlName="name"
+                  placeholder="Name"
+                />
+                <input
+                  class="form-input w-1/2 border-2 outline-none border-teal-500 border-r rounded-l-md focus:border-teal-800 p-1.5"
+                  type="text"
+                  id="units"
+                  formControlName="units"
+                  placeholder="Units"
+                />
+                <input
+                  class="form-input w-1/2 border-2 outline-none border-teal-500 border-l rounded-r-md focus:border-teal-800 p-1.5"
+                  type="text"
+                  id="costPerUnit"
+                  formControlName="costPerUnit"
+                  placeholder="Cost per Unit"
+                />
+              </div>
+              <div class="flex justify-end">
+                <button class="m-1 text-sm my-2 rounded p-2">Cancel</button>
+                <button
+                  type="submit"
+                  class="m-1 mr-0 bg-orange-300 text-sm font-normal my-2 rounded p-2"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- add material button -->
           <div
-            *ngIf="editMode"
+            *ngIf="editMode && !addingMaterial"
             class="flex justify-center items-center px-3 py-3 rounded-md p-1 bg-amber-500 shadow-md hover:cursor-pointer active:bg-amber-600"
-            (click)="addMaterialInput()"
+            (click)="toggleMaterialInput()"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +145,7 @@
               />
             </svg>
           </div>
-          <div *ngIf="!editMode" class="text-sm text-right">
+          <div *ngIf="!editMode || !addingMaterial" class="text-sm text-right">
             Total: {{ job?.totalMaterial }}
           </div>
         </div>
@@ -186,16 +237,19 @@
           </div>
         </div>
       </div>
-      <hr class="mx-3 my-3" />
-      <div class="flex justify-end">
-        <div class="flex-col mx-3 w-1/4">
-          <div class="flex my-1 font-thin justify-between">
-            <div>Total Cost:</div>
-            <div>{{ job?.totalCost }}</div>
-          </div>
-          <div class="flex my-1 font-thin justify-between">
-            <div>Cost Per Unit:</div>
-            <div>{{ job?.costPerUnit }}</div>
+      <!-- cost summary -->
+      <div *ngIf="!editMode">
+        <hr class="mx-3 my-3" />
+        <div class="flex justify-end">
+          <div class="flex-col mx-3 w-1/4">
+            <div class="flex font-thin text-lg justify-between">
+              <div>Total Cost:</div>
+              <div>{{ job?.totalCost }}</div>
+            </div>
+            <div class="flex font-thin text-lg justify-between">
+              <div>Cost Per Unit:</div>
+              <div>{{ job?.costPerUnit }}</div>
+            </div>
           </div>
         </div>
       </div>

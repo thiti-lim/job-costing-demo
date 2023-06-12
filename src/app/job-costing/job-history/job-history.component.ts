@@ -30,10 +30,7 @@ export class JobHistoryComponent {
   }
 
   openJobDetail(job: JobCosting) {
-    this.router.navigate([
-      '/job-costing/job',
-      job.jobNumber.toLocaleLowerCase(),
-    ]);
+    this.router.navigate(['/job-costing/job', job.id]);
     console.log(job.jobNumber);
   }
 }
