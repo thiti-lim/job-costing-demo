@@ -67,6 +67,25 @@ export class JobDetailComponent {
     this.jobCostingService.removeMaterial(this.job!.id, matId);
   }
 
+  addLabor(dl: DirectLaborForAdd) {
+    this.jobCostingService.addLabor(this.job?.id ?? 0, dl);
+    this.materialForm.reset();
+  }
+
+  removeLabor(labId: number) {
+    this.jobCostingService.removeLabor(this.job!.id, labId);
+  }
+
+  removeCost(data: any) {
+    if (data.type === 'material') {
+      this.removeMaterial(data.id);
+    } else if (data.type === 'labor') {
+      this.removeLabor(data.id);
+    } else {
+      return;
+    }
+  }
+
   addNewCost(data: any) {
     if (data.type === 'material') {
       let dm = new DirectMaterialForAdd(
@@ -75,7 +94,6 @@ export class JobDetailComponent {
         Number(data.costPer),
         Number(data.units)
       );
-      console.log(dm);
       this.addMaterial(dm);
     } else if (data.type === 'labor') {
       let dl = new DirectLaborForAdd(
@@ -84,7 +102,7 @@ export class JobDetailComponent {
         Number(data.costPer),
         Number(data.hours)
       );
-      console.log(dl);
+      this.addLabor(dl);
     } else {
       return;
     }

@@ -33,6 +33,7 @@
           [costList]="job?.directMaterials!"
           [totalCost]="job?.totalMaterial!"
           (newCostEmitter)="addNewCost($event)"
+          (removeCostEmitter)="removeCost($event)"
           costUnit="units"
           class="w-1/3"
         ></cost-column>
@@ -44,6 +45,7 @@
           [costList]="job?.directLabors!"
           [totalCost]="job?.totalLabor ?? 0"
           (newCostEmitter)="addNewCost($event)"
+          (removeCostEmitter)="removeCost($event)"
           costUnit="hours"
           class="w-1/3"
         ></cost-column>

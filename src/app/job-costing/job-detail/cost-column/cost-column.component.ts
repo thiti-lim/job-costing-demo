@@ -13,9 +13,9 @@ export class CostColumnComponent {
   @Input() columnIcon: string = '';
   @Input() costList: any[] = [];
   @Input() totalCost: number = 0;
-  @Input() onRemove: (cost: any) => void = () => {};
   @Input() costUnit: string = '';
   @Output() newCostEmitter = new EventEmitter<Object>();
+  @Output() removeCostEmitter = new EventEmitter<Object>();
 
   isRemovingCost: boolean = false;
   isAddingCost: boolean = false;
@@ -56,5 +56,9 @@ export class CostColumnComponent {
   handleCancel(): void {
     this.removeCostOff();
     this.addCostOff();
+  }
+
+  handleRemove(id: number): void {
+    this.removeCostEmitter.emit({ type: this.columnType, id: id });
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   DirectLabor,
+  DirectLaborForAdd,
   DirectMaterial,
   DirectMaterialForAdd,
   JobCosting,
@@ -100,6 +101,23 @@ export class JobCostingService {
     );
   }
 
+  public addLabor(jobId: number, newLabor: DirectLaborForAdd) {
+    let job: JobCosting | undefined = this.getJobCosting(jobId);
+    job?.directLabors?.push(
+      new DirectLabor(
+        this.getNewJobId(jobId),
+        newLabor.reqNum,
+        newLabor.name,
+        Number(newLabor.hours),
+        Number(newLabor.costPer)
+      )
+    );
+  }
+
+  public removeLabor(jobId: number, labId: number) {
+    let job: JobCosting | undefined = this.getJobCosting(jobId);
+    job!.directLabors = job?.directLabors?.filter((mat) => mat.id != labId);
+  }
   getNewJobId(jobId: number): number {
     let job: JobCosting | undefined = this.getJobCosting(jobId);
     if (job == null) return 0;
