@@ -108,3 +108,31 @@ export class DirectLabor {
     return this.hours * this.costPerHour;
   }
 }
+
+export class DirectMaterialForAdd {
+  name: string;
+  reqNum: string;
+  costPer: number;
+  units: number;
+
+  constructor(name: string, reqNo: string, costPer: number, units: number) {
+    this.name = name;
+    this.reqNum = reqNo;
+    this.costPer = costPer;
+    this.units = units;
+  }
+}
+
+export class DirectLaborForAdd {
+  name: string;
+  reqNum: string;
+  costPer: number;
+  hours: number;
+
+  constructor(name: string, reqNo: string, costPer: number, hours: number) {
+    this.name = name;
+    this.reqNum = reqNo;
+    this.costPer = costPer;
+    this.hours = hours;
+  }
+}

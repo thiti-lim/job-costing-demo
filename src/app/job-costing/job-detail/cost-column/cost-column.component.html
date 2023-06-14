@@ -1,0 +1,174 @@
+<div class="flex-col items-center px-2 text-lg text-black font-thin">
+  <div class="flex justify-center">
+    <mat-icon class="mr-2">{{ columnIcon }}</mat-icon>
+    <div class="mb-5 text-center text-lg">{{ columnHeader }}</div>
+  </div>
+  <div
+    div
+    class="flex justify-between items-center mb-3 px-5 border-2 rounded-md border-gray-300 p-1 bg-gray-100"
+    *ngFor="let cost of costList"
+  >
+    <div>
+      <div class="text-xl">{{ cost.name }}</div>
+      <div class="text-xs">{{ cost.reqNum }}</div>
+    </div>
+    <div class="flex">
+      <div *ngIf="!isRemovingCost" class="text-sm">
+        {{ cost.totalCost }} BAHT
+      </div>
+      <div *ngIf="isRemovingCost" class="ml-2 hover:cursor-pointer">
+        <a (click)="(onRemove)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6 text-gray-500 hover:text-gray-900"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="addCostForm" (ngSubmit)="removeCostOn()" class="flex-col">
+    <div *ngIf="isAddingCost" class="mb-2">
+      <div class="flex rounded-md shadow-sm my-2">
+        <span
+          class="px-4 inline-flex items-center min-w-fit rounded-l-md border border-r-0 border-gray-200 bg-gray-50 text-sm text-gray-500"
+          >Name</span
+        >
+        <input
+          type="text"
+          class="py-2 px-3 pr-11 block w-full border outline-none border-gray-200 shadow-sm rounded-r-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+          id="name"
+          formControlName="name"
+        />
+      </div>
+      <div class="flex rounded-md shadow-sm my-2">
+        <span
+          class="px-4 inline-flex items-center min-w-fit rounded-l-md border border-r-0 border-gray-200 bg-gray-50 text-sm text-gray-500"
+          >Req No.</span
+        >
+        <input
+          type="text"
+          class="py-2 px-3 pr-11 block w-full border outline-none border-gray-200 shadow-sm rounded-r-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+          id="reqNum"
+          formControlName="reqNum"
+        />
+      </div>
+      <div>
+        <div class="sm:flex rounded-md shadow-sm">
+          <span
+            class="py-2 px-3 inline-flex items-center min-w-fit w-full border border-r-0 border-gray-200 bg-gray-50 text-sm text-gray-500 first:rounded-t-md last:rounded-b-md sm:w-auto sm:first:rounded-l-md sm:mt-0 sm:first:ml-0 sm:first:rounded-tr-none sm:last:rounded-bl-none sm:last:rounded-r-md"
+            >Cost / {{ costUnit | capitalize }}</span
+          >
+          <input
+            type="text"
+            class="py-2 px-3 pr-11 block w-full border outline-none border-r-0 border-gray-200 shadow-sm first:rounded-t-md last:rounded-b-md sm:first:rounded-l-md sm:mt-0 sm:first:ml-0 sm:first:rounded-tr-none sm:last:rounded-bl-none sm:last:rounded-r-md text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500 focus:border-r"
+            id="costPer"
+            formControlName="costPer"
+          />
+          <input
+            type="text"
+            class="py-2 px-3 pr-11 block w-full border outline-none border-gray-200 shadow-sm first:rounded-t-md last:rounded-b-md sm:first:rounded-l-md sm:mt-0 sm:first:ml-0 sm:first:rounded-tr-none sm:last:rounded-bl-none sm:last:rounded-r-md text-sm relative focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+            [id]="costUnit"
+            [formControlName]="costUnit"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-between px-1 items-start">
+      <div>
+        <button
+          *ngIf="!displayCheck()"
+          class="bg-violet-400 hover:bg-violet-700 text-white font-bold px-2 py-2 mr-2 rounded"
+          (click)="addCostOn()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="w-5 h-5 text-black"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 6v12m6-6H6"
+            />
+          </svg>
+        </button>
+        <button
+          *ngIf="!displayCheck()"
+          class="bg-red-400 hover:bg-red-700 text-white font-bold px-2 py-2 rounded"
+          (click)="removeCostOn()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5 text-black"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+            />
+          </svg>
+        </button>
+
+        <button
+          *ngIf="displayCheck()"
+          class="bg-yellow-400 hover:bg-yellow-700 text-white font-bold px-2 py-2 mr-2 rounded"
+          (click)="handleSubmit()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5 text-black"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12.75l6 6 9-13.5"
+            />
+          </svg>
+        </button>
+        <button
+          *ngIf="isAddingCost"
+          class="bg-red-400 hover:bg-red-700 text-white font-bold px-2 py-2 mr-2 rounded"
+          (click)="handleCancel()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5 text-black"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div class="text-lg text-right">Total: {{ totalCost }}</div>
+    </div>
+  </form>
+</div>

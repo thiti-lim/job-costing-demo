@@ -1,19 +1,6 @@
-<!-- page header -->
-<div class="flex items-center bg-white h-16 border-y-teal-200 shadow-md">
-  <p class="ml-5 mt-3 text-teal-700">{{ headerTitle | uppercase }}</p>
-</div>
+<page-header [headerTitle]="headerTitle"></page-header>
 <div class="flex m-8 mb-3 justify-center flex-wrap">
   <!-- fab buttons -->
-  <div class="fixed flex flex-col bottom-0 right-0 m-10">
-    <button mat-fab class="bg-lime-400 mb-3" (click)="toggleEdit()">
-      <mat-icon class="text-black">{{
-        editMode ? 'visibility' : 'edit'
-      }}</mat-icon>
-    </button>
-    <button mat-fab class="bg-rose-500">
-      <mat-icon class="text-black">delete</mat-icon>
-    </button>
-  </div>
   <div class="w-5/6">
     <!-- card header -->
     <div
@@ -38,228 +25,42 @@
       <!-- inputs -->
       <div class="flex justify-evenly">
         <!-- direct materials  -->
-        <div
-          class="flex-col items-center w-1/3 px-3 text-lg text-black font-thin"
+        <cost-column
+          columnType="material"
+          columnHeader="Direct Materials"
+          columnIcon="science"
+          [addCostForm]="materialForm"
+          [costList]="job?.directMaterials!"
+          [totalCost]="job?.totalMaterial!"
+          (newCostEmitter)="addNewCost($event)"
+          costUnit="units"
+          class="w-1/3"
+        ></cost-column>
+        <cost-column
+          columnType="labor"
+          columnHeader="Direct Labor"
+          columnIcon="engineering"
+          [addCostForm]="laborForm"
+          [costList]="job?.directLabors!"
+          [totalCost]="job?.totalLabor ?? 0"
+          (newCostEmitter)="addNewCost($event)"
+          costUnit="hours"
+          class="w-1/3"
+        ></cost-column>
+        <overhead-column
+          [directLabors]="job?.directLabors!"
+          [overheadRate]="job?.overheadRate ?? 0"
+          [totalOverhead]="job?.totalOverhead ?? 0"
+          class="w-1/3"
         >
-          <div class="flex justify-center">
-            <mat-icon class="mr-2">science</mat-icon>
-            <div class="mb-5 text-center text-lg">Direct Materials</div>
-          </div>
-          <div
-            div
-            class="flex justify-between items-center mb-3 px-5 border-2 rounded-md border-gray-300 p-1 bg-gray-100"
-            *ngFor="let dm of job?.directMaterials"
-          >
-            <div>
-              <div class="text-xl">{{ dm.name }}</div>
-              <div class="text-xs">{{ dm.reqNum }}</div>
-            </div>
-            <div class="flex">
-              <div *ngIf="!editMode" class="text-sm">
-                {{ dm.totalCost }} BAHT
-              </div>
-              <div *ngIf="editMode" class="ml-2 hover:cursor-pointer">
-                <a (click)="removeMaterial(dm.id)">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6 text-gray-500 hover:text-gray-900"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                    />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="addingMaterial">
-            <form
-              [formGroup]="materialForm"
-              (ngSubmit)="addMaterial()"
-              class="flex-col"
-            >
-              <div class="flex flex-wrap items-center">
-                <input
-                  class="form-input w-1/2 border-2 outline-none border-teal-500 mb-2 border-r rounded-l-md focus:border-teal-800 p-1.5"
-                  type="text"
-                  id="reqNum"
-                  formControlName="reqNum"
-                  placeholder="Req No."
-                />
-                <input
-                  class="form-input w-1/2 border-2 outline-none border-teal-500 mb-2 border-l rounded-r-md focus:border-teal-800 p-1.5"
-                  type="text"
-                  id="name"
-                  formControlName="name"
-                  placeholder="Name"
-                />
-                <input
-                  class="form-input w-1/2 border-2 outline-none border-teal-500 border-r rounded-l-md focus:border-teal-800 p-1.5"
-                  type="text"
-                  id="units"
-                  formControlName="units"
-                  placeholder="Units"
-                />
-                <input
-                  class="form-input w-1/2 border-2 outline-none border-teal-500 border-l rounded-r-md focus:border-teal-800 p-1.5"
-                  type="text"
-                  id="costPerUnit"
-                  formControlName="costPerUnit"
-                  placeholder="Cost per Unit"
-                />
-              </div>
-              <div class="flex justify-end">
-                <button
-                  (click)="materialInputOff()"
-                  class="m-1 text-sm my-2 rounded p-2"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  class="m-1 mr-0 bg-orange-300 text-sm font-normal my-2 rounded p-2"
-                >
-                  ADD
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <!-- add material button -->
-          <div
-            *ngIf="editMode && !addingMaterial"
-            class="flex justify-center items-center px-3 py-3 rounded-md p-1 bg-amber-500 shadow-md hover:cursor-pointer active:bg-amber-600"
-            (click)="materialInputOn()"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="w-6 h-6 text-white"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 6v12m6-6H6"
-              />
-            </svg>
-          </div>
-          <div *ngIf="!editMode && !addingMaterial" class="text-sm text-right">
-            Total: {{ job?.totalMaterial }}
-          </div>
-        </div>
-        <!-- direct labor  -->
-        <div
-          class="flex-col justify-center w-1/3 px-3 text-lg text-black font-thin"
-        >
-          <div class="flex justify-center">
-            <mat-icon class="mat-outline mr-2">engineering</mat-icon>
-            <div class="mb-5 text-center">Direct Labor</div>
-          </div>
-          <div
-            div
-            class="flex justify-between items-center mb-3 px-5 border-2 rounded-md border-gray-300 p-1 bg-gray-100"
-            *ngFor="let dl of job?.directLabors"
-          >
-            <div>
-              <div class="text-xl">{{ dl.name }}</div>
-              <div class="text-xs">{{ dl.reqNum }}</div>
-            </div>
-            <div class="flex">
-              <div *ngIf="!editMode" class="text-sm">
-                {{ dl.totalCost }} BAHT
-              </div>
-              <div *ngIf="editMode" class="ml-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6 text-gray-500"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div
-            *ngIf="editMode"
-            class="flex justify-center items-center px-3 py-3 rounded-md p-1 bg-amber-500 shadow-md hover:cursor-pointer active:bg-amber-600"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="w-6 h-6 text-white"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 6v12m6-6H6"
-              />
-            </svg>
-          </div>
-          <div *ngIf="!editMode" class="text-sm text-right">
-            Total: {{ job?.totalLabor }}
-          </div>
-        </div>
-        <!-- overhead  -->
-        <div
-          class="flex-col justify-center w-1/3 px-3 text-lg text-black font-thin"
-        >
-          <div class="flex justify-center">
-            <mat-icon class="mr-2">construction</mat-icon>
-            <div class="mb-5 text-center">Overhead</div>
-          </div>
-          <div
-            div
-            class="flex justify-between items-center mb-3 px-5 border-2 rounded-md border-gray-300 p-1 bg-gray-100"
-            *ngFor="let dl of job?.directLabors"
-          >
-            <div>
-              <div class="text-xl">Direct labor {{ dl.hours }} hrs.</div>
-              <div class="text-xs">{{ job?.overheadRate }} baht per hr.</div>
-            </div>
-            <div class="text-sm">
-              {{ dl.totalCost * job!.overheadRate }} BAHT
-            </div>
-          </div>
-          <div *ngIf="!editMode" class="text-sm text-right">
-            Total: {{ job?.totalOverhead }}
-          </div>
-        </div>
+        </overhead-column>
       </div>
       <!-- cost summary -->
-      <div *ngIf="!editMode">
-        <hr class="mx-3 my-3" />
-        <div class="flex justify-end">
-          <div class="flex-col mx-3 w-1/4">
-            <div class="flex font-thin text-lg justify-between">
-              <div>Total Cost:</div>
-              <div>{{ job?.totalCost }}</div>
-            </div>
-            <div class="flex font-thin text-lg justify-between">
-              <div>Cost Per Unit:</div>
-              <div>{{ job?.costPerUnit }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <hr class="mx-3 my-3" />
+      <cost-summary
+        [totalCost]="job?.totalCost ?? 0"
+        [costPerUnit]="job?.costPerUnit ?? 0"
+      ></cost-summary>
     </div>
   </div>
 </div>

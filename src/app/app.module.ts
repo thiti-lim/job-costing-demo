@@ -10,6 +10,12 @@ import { JobHistoryComponent } from './job-costing/job-history/job-history.compo
 import { JobDetailComponent } from './job-costing/job-detail/job-detail.component';
 import localeTh from '@angular/common/locales/th';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { CostColumnComponent } from './job-costing/job-detail/cost-column/cost-column.component';
+import { AddCostInputComponent } from './job-costing/job-detail/add-cost-input/add-cost-input.component';
+import { CostSummaryComponent } from './job-costing/job-detail/cost-summary/cost-summary.component';
+import { CostColumnOverheadComponent } from './job-costing/job-detail/cost-column-overhead/cost-column-overhead.component';
+import { CapitalizePipe } from './helpers/capitalize.pipe';
 
 registerLocaleData(localeTh);
 const routes: Routes = [
@@ -24,6 +30,12 @@ const routes: Routes = [
     AddJobComponent,
     JobHistoryComponent,
     JobDetailComponent,
+    PageHeaderComponent,
+    CostColumnComponent,
+    AddCostInputComponent,
+    CostSummaryComponent,
+    CostColumnOverheadComponent,
+    CapitalizePipe,
   ],
   imports: [
     BrowserModule,

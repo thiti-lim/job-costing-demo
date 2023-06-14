@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { JobCostingService } from '../job-costing.service';
-import { DirectMaterial, JobCosting } from '../job-costing.model';
+import {
+  DirectLaborForAdd,
+  DirectMaterial,
+  DirectMaterialForAdd,
+  JobCosting,
+} from '../job-costing.model';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   FormControl,
@@ -16,7 +21,6 @@ import {
 })
 export class JobDetailComponent {
   headerTitle: string = 'Job Detail';
-  editMode: boolean = false;
   addingMaterial: boolean = false;
   job?: JobCosting;
   totalMaterial = 0;
@@ -26,7 +30,13 @@ export class JobDetailComponent {
     name: new FormControl('', [Validators.required]),
     reqNum: new FormControl('', [Validators.required]),
     units: new FormControl('', [Validators.required, Validators.min(0)]),
-    costPerUnit: new FormControl('', [Validators.required, Validators.min(0)]),
+    costPer: new FormControl('', [Validators.required, Validators.min(0)]),
+  });
+  laborForm: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    reqNum: new FormControl('', [Validators.required]),
+    hours: new FormControl('', [Validators.required, Validators.min(0)]),
+    costPer: new FormControl('', [Validators.required, Validators.min(0)]),
   });
 
   constructor(
@@ -40,11 +50,6 @@ export class JobDetailComponent {
     console.log(this.job);
   }
 
-  toggleEdit(): void {
-    this.editMode = !this.editMode;
-    if (!this.editMode) this.addingMaterial = false;
-  }
-
   materialInputOn(): void {
     this.addingMaterial = true;
   }
@@ -53,15 +58,35 @@ export class JobDetailComponent {
     this.addingMaterial = false;
   }
 
-  addMaterial() {
-    this.jobCostingService.addMaterial(
-      this.job?.id ?? 0,
-      this.materialForm.value
-    );
+  addMaterial(dm: DirectMaterialForAdd) {
+    this.jobCostingService.addMaterial(this.job?.id ?? 0, dm);
     this.materialForm.reset();
   }
 
   removeMaterial(matId: number) {
     this.jobCostingService.removeMaterial(this.job!.id, matId);
+  }
+
+  addNewCost(data: any) {
+    if (data.type === 'material') {
+      let dm = new DirectMaterialForAdd(
+        data.name,
+        data.reqNum,
+        Number(data.costPer),
+        Number(data.units)
+      );
+      console.log(dm);
+      this.addMaterial(dm);
+    } else if (data.type === 'labor') {
+      let dl = new DirectLaborForAdd(
+        data.name,
+        data.reqNum,
+        Number(data.costPer),
+        Number(data.hours)
+      );
+      console.log(dl);
+    } else {
+      return;
+    }
   }
 }

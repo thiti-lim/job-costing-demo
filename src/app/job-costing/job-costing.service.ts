@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { DirectLabor, DirectMaterial, JobCosting } from './job-costing.model';
+import {
+  DirectLabor,
+  DirectMaterial,
+  DirectMaterialForAdd,
+  JobCosting,
+} from './job-costing.model';
 
 @Injectable({
   providedIn: 'root',
@@ -75,7 +80,7 @@ export class JobCostingService {
     return;
   }
 
-  public addMaterial(jobId: number, newMaterial: any) {
+  public addMaterial(jobId: number, newMaterial: DirectMaterialForAdd) {
     let job: JobCosting | undefined = this.getJobCosting(jobId);
     job?.directMaterials?.push(
       new DirectMaterial(
@@ -83,7 +88,7 @@ export class JobCostingService {
         newMaterial.reqNum,
         newMaterial.name,
         Number(newMaterial.units),
-        Number(newMaterial.costPerUnit)
+        Number(newMaterial.costPer)
       )
     );
   }

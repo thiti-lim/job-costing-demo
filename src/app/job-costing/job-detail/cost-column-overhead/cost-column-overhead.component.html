@@ -1,0 +1,18 @@
+<div class="flex-col items-center px-2 text-lg text-black font-thin">
+  <div class="flex justify-center">
+    <mat-icon class="mr-2">construction</mat-icon>
+    <div class="mb-5 text-center text-lg">Overhead</div>
+  </div>
+  <div
+    div
+    class="flex justify-between items-center mb-3 px-5 border-2 rounded-md border-gray-300 p-1 bg-gray-100"
+    *ngFor="let dl of directLabors"
+  >
+    <div>
+      <div class="text-xl">Direct labor {{ dl.hours }} hrs.</div>
+      <div class="text-xs">{{ overheadRate }} baht per hr.</div>
+    </div>
+    <div class="text-sm">{{ dl.totalCost * overheadRate }} BAHT</div>
+  </div>
+  <div class="text-lg text-right">Total: {{ totalOverhead }}</div>
+</div>
